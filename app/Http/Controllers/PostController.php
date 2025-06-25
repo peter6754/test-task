@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
@@ -16,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection(Post::with('comments')->get());
+        return PostResource::collection(Post::with('comments')->get())
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -32,7 +35,9 @@ class PostController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return new PostResource($post);
+        return (new PostResource($post))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
@@ -40,7 +45,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return new PostResource($post);
+        $post->load('comments');
+
+        return (new PostResource($post))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -56,7 +65,9 @@ class PostController extends Controller
             'body' => $validatedData['body'],
         ]);
 
-        return new PostResource($post->refresh());
+        return (new PostResource($post->refresh()))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -67,6 +78,6 @@ class PostController extends Controller
         $this->authorize('delete', $post);
         $post->delete();
 
-        return response()->json(['message' => 'Post deleted successfully'], 200);
+        return response()->json(['message' => 'Post deleted successfully'], Response::HTTP_OK);
     }
 }

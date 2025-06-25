@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Post;
 use App\Services\CommentService;
+use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
@@ -26,6 +27,8 @@ class CommentController extends Controller
             auth()->id()
         );
 
-        return CommentResource::make($comment);
+        return CommentResource::make($comment)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 }
