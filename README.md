@@ -12,9 +12,6 @@ php 8.4 <br>
 Laravel 12 <br>
 
 ## Запуск
-php 8.4, Laravel 12 <br>
-
-Установка: <br>
 git clone <br>
 composer install <br>
 cp .env.example .env <br>
