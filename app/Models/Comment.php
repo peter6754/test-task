@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+    protected $fillable = ['content', 'user_id', 'commentable_type', 'commentable_id', 'parent_id'];
+
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function answers()
