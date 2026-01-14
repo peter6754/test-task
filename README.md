@@ -10,6 +10,7 @@
 ## About Laravel
 php 8.4 <br>
 Laravel 12 <br>
+mysql  Ver 8.0.44 <br>
 
 ## Запуск
 git clone <br>
